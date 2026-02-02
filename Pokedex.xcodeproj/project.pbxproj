@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXFileReference section */
+		C415F9292F307DC5003A5A95 /* 요구사항분석.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "요구사항분석.md"; sourceTree = "<group>"; };
 		C47CC22C2F2F8BDE00B38564 /* Pokedex.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pokedex.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		C47CC23B2F2F8C7300B38564 /* 요구사항 분석.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "요구사항 분석.md"; sourceTree = "<group>"; };
 		C4ADE9E12F2DD53300DE8242 /* CheckList.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CheckList.md; sourceTree = "<group>"; };
 		C4F700B62F2A023A0098A697 /* Project.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Project.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -52,7 +52,7 @@
 				C4F700B62F2A023A0098A697 /* Project.md */,
 				C4ADE9E12F2DD53300DE8242 /* CheckList.md */,
 				C47CC22C2F2F8BDE00B38564 /* Pokedex.app */,
-				C47CC23B2F2F8C7300B38564 /* 요구사항 분석.md */,
+				C415F9292F307DC5003A5A95 /* 요구사항분석.md */,
 			);
 			sourceTree = "<group>";
 		};
