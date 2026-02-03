@@ -8,10 +8,12 @@
 import UIKit
 import PokedexDomain
 
+@MainActor
 internal protocol PokedexListRouterProcotol: AnyObject {
-    func push(_ pokemonID: PokemonID)
+    func assign(_ destination: PokedexListDestination)
 }
 
+@MainActor
 internal protocol PokedexListRenderer: AnyObject {
     func render(_ viewModel: PokedexListViewModel)
 }
@@ -20,6 +22,10 @@ enum PokedexListViewModel {
     case appendPokemonList([PokemonID])
     case setupPokemonImage(pokemonID: PokemonID, image: UIImage)
     case showErrorAlert(title: String, message: String)
+}
+
+enum PokedexListDestination {
+    case pushPokemonInfo(PokemonID)
 }
 
 internal final class PokedexListPresneter: PokedexListOutputPort {

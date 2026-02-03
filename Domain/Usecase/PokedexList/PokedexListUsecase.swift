@@ -18,6 +18,17 @@ internal protocol PokedexListRepositoryProtocol {
     func fetchPokemonImage(_ pokemonID: PokemonID) async throws -> PokemonImageData
 }
 
+internal enum PokedexListRepositoryError: Error {
+    case offline
+    case unknown
+}
+
+internal enum PokedexListUsecaseError: Error {
+    case offline
+    case pokemonImageLoadFaild(PokemonID)
+    case unknown
+}
+
 internal final class PokedexListUsecase: PokedexListUsecaseProtocol {
     
     private let outputPort: PokedexListOutputPort

@@ -5,38 +5,37 @@
 //  Created by jerry on 2/2/26.
 //
 
-import PokedexDomain
 import Foundation
+import PokedexDomain
 
 protocol NetworkStatusProviderProtocol {
     var isConnected: Bool { get }
 }
 
-protocol PokedexNetworkClientProtocol {
-    func fetchPokemonIDList(_ offset: Int, _ limit: Int) async throws -> NamedAPIResourceList
-    func fetchPokemonImage(_ pokemonID: PokemonID) async throws -> Data
+protocol NetworkClientProtocol {
+    func fetch<DTO: Decodable>(_ url: URL) async throws -> DTO
 }
 
 final class PokedexListRepository: PokedexListRepositoryProtocol {
-    
+
     private let networkStatusProvider: NetworkStatusProviderProtocol
-    private let networkClient: PokedexNetworkClientProtocol
+    private let networkClient: NetworkClientProtocol
+    
+    private var offset: Int = 0
+    private let limit: Int = 21
     
     init(
         networkStatusProvider: NetworkStatusProviderProtocol,
-        networkClient: PokedexNetworkClientProtocol,
+        networkClient: NetworkClientProtocol,
     ) {
         self.networkStatusProvider = networkStatusProvider
         self.networkClient = networkClient
     }
     
-    func fetchPokemonID(_ offset: Int) async throws -> [PokemonID] {
-        <#code#>
+    func fetchPokemonIDList() async throws -> [PokemonID] {
     }
     
     func fetchPokemonImage(_ pokemonID: PokemonID) async throws -> PokemonImageData {
-        <#code#>
     }
     
 }
-

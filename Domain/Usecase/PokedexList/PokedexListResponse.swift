@@ -5,6 +5,10 @@
 //  Created by jerry on 2/2/26.
 //
 
+import Foundation.NSData
+
+internal typealias PokemonImageData = Data
+
 internal enum PokedexListResponse {
     case appendPokemonIDList([PokemonID])
     case setPokemonImage(pokemonID: PokemonID, imageData: PokemonImageData)

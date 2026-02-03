@@ -9,14 +9,14 @@ import UIKit
 import PokedexDomain
 
 internal final class PokedexListRouter: PokedexListRouterProcotol {
-    
+
     private weak var navigationController: UINavigationController?
     
     internal init(navigationController: UINavigationController?) {
         self.navigationController = navigationController
     }
     
-    func push(_ pokemonID: PokemonID) {
+    func assign(_ destination: PokedexListDestination) {
         <#code#>
     }
     

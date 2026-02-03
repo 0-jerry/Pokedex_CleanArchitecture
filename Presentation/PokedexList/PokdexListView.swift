@@ -7,6 +7,7 @@
 
 import UIKit
 
+@MainActor
 internal final class PokedexListView: UIView, PokedexListRenderer {
     
     func render(_ viewModel: PokedexListViewModel) {
