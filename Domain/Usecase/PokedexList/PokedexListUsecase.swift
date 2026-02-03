@@ -14,7 +14,7 @@ internal protocol PokedexListOutputPort: AnyObject {
 }
 
 internal protocol PokedexListRepositoryProtocol {
-    func fetchPokemonID(_ offset: Int) async throws -> [PokemonID]
+    func fetchPokemonIDList() async throws -> [PokemonID]
     func fetchPokemonImage(_ pokemonID: PokemonID) async throws -> PokemonImageData
 }
 

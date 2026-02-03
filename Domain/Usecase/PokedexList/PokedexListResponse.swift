@@ -7,11 +7,14 @@
 
 import Foundation.NSData
 
-internal typealias PokemonImageData = Data
+internal struct PokemonImageData {
+    let pokemonID: PokemonID
+    let data: Data
+}
 
 internal enum PokedexListResponse {
     case appendPokemonIDList([PokemonID])
-    case setPokemonImage(pokemonID: PokemonID, imageData: PokemonImageData)
+    case setPokemonImage(imageData: PokemonImageData)
     case pushPokemonInfo(pokemonID: PokemonID)
     case handleError(_ error: Error)
 }
