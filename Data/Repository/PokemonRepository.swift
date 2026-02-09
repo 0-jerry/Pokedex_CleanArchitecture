@@ -27,11 +27,17 @@ protocol CacheProtocol {
     func value<Value>(forKey key: URL) async -> Value?
 }
 
+protocol PokeDTOParserProtocol {
+    func parsePokemonIDList(from dto: NamedAPIResourceList) async throws -> [PokemonID]
+    func parsePokemon(from dto: PokemonDTO) async throws -> Pokemon
+}
+
 public final class PokemonRepository: PokedexListRepositoryProtocol {
     
     private let urlMapper: PokeAPIURLMapperProtocol = PokeAPIURLMapper()
     private let networkStatusProvider: NetworkStatusProviderProtocol
     private let networkClient: NetworkClientProtocol
+    private let parser: PokeDTOParserProtocol
     private let cache: CacheProtocol
     
     private var offset: Int = 0
@@ -41,16 +47,19 @@ public final class PokemonRepository: PokedexListRepositoryProtocol {
         self.urlMapper = PokeAPIURLMapper()
         self.networkStatusProvider = DefaultNetworkStatusProvider()
         self.networkClient = URLSessionNetworkClient()
+        self.parser = PokeDTOParser()
         self.cache = InMemoryCache()
     }
     
     internal init(
         networkStatusProvider: NetworkStatusProviderProtocol,
         networkClient: NetworkClientProtocol,
+        parser: PokeDTOParserProtocol,
         cache: CacheProtocol
     ) {
         self.networkStatusProvider = networkStatusProvider
         self.networkClient = networkClient
+        self.parser = parser
         self.cache = cache
     }
     
