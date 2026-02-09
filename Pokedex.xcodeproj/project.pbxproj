@@ -51,15 +51,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		C415FAD92F30CF3C003A5A95 /* Pokedex.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pokedex.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C415FBB62F30E71C003A5A95 /* 설계.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "설계.md"; sourceTree = "<group>"; };
 		C415FBB72F30E71C003A5A95 /* 요구사항분석.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "요구사항분석.md"; sourceTree = "<group>"; };
 		C415FBB82F30E71C003A5A95 /* CheckList.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CheckList.md; sourceTree = "<group>"; };
 		C415FBB92F30E71C003A5A95 /* Project.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Project.md; sourceTree = "<group>"; };
-		C4C8160D2F31F61C00C439F0 /* PokedexDomain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = PokedexDomain.framework; path = "/Users/jerry/Pokedex/build/Debug-iphoneos/PokedexDomain.framework"; sourceTree = "<absolute>"; };
-		C4C8160E2F31F61C00C439F0 /* PokedexPresentation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = PokedexPresentation.framework; path = "/Users/jerry/Pokedex/build/Debug-iphoneos/PokedexPresentation.framework"; sourceTree = "<absolute>"; };
-		C4C8160F2F31F61C00C439F0 /* PokedexData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = PokedexData.framework; path = "/Users/jerry/Pokedex/build/Debug-iphoneos/PokedexData.framework"; sourceTree = "<absolute>"; };
-		C4C816AC2F31F91F00C439F0 /* PokedexTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PokedexTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C4924C832F39D4E900150F59 /* Pokedex.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pokedex.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C4924C842F39D4E900150F59 /* PokedexDomain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PokedexDomain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C4924C852F39D4E900150F59 /* PokedexPresentation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PokedexPresentation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C4924C862F39D4E900150F59 /* PokedexData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PokedexData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C4924C872F39D4E900150F59 /* PokedexTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PokedexTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -143,14 +143,17 @@
 		C4F700792F29F2390098A697 = {
 			isa = PBXGroup;
 			children = (
-				C4C8169B2F31F6B800C439F0 /* Presentation */,
 				C4C816612F31F69800C439F0 /* Domain */,
-				C4F700842F29F2390098A697 /* Pokedex */,
-				C415FAD92F30CF3C003A5A95 /* Pokedex.app */,
-				C415FBBA2F30E71C003A5A95 /* Document */,
 				C4C8168F2F31F6AB00C439F0 /* Data */,
-				C4C816AC2F31F91F00C439F0 /* PokedexTests.xctest */,
+				C4C8169B2F31F6B800C439F0 /* Presentation */,
+				C4F700842F29F2390098A697 /* Pokedex */,
 				C4C816AD2F31F92000C439F0 /* PokedexTests */,
+				C415FBBA2F30E71C003A5A95 /* Document */,
+				C4924C832F39D4E900150F59 /* Pokedex.app */,
+				C4924C842F39D4E900150F59 /* PokedexDomain.framework */,
+				C4924C852F39D4E900150F59 /* PokedexPresentation.framework */,
+				C4924C862F39D4E900150F59 /* PokedexData.framework */,
+				C4924C872F39D4E900150F59 /* PokedexTests.xctest */,
 			);
 			sourceTree = "<group>";
 		};
@@ -201,7 +204,7 @@
 			packageProductDependencies = (
 			);
 			productName = PokedexDomain;
-			productReference = C4C8160D2F31F61C00C439F0 /* PokedexDomain.framework */;
+			productReference = C4924C842F39D4E900150F59 /* PokedexDomain.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		C4C814ED2F31F20900C439F0 /* PokedexPresentation */ = {
@@ -218,14 +221,13 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				C4C816612F31F69800C439F0 /* Domain */,
 				C4C8169B2F31F6B800C439F0 /* Presentation */,
 			);
 			name = PokedexPresentation;
 			packageProductDependencies = (
 			);
 			productName = PokedexPresentation;
-			productReference = C4C8160E2F31F61C00C439F0 /* PokedexPresentation.framework */;
+			productReference = C4924C852F39D4E900150F59 /* PokedexPresentation.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		C4C814FD2F31F21300C439F0 /* PokedexData */ = {
@@ -242,14 +244,13 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				C4C816612F31F69800C439F0 /* Domain */,
 				C4C8168F2F31F6AB00C439F0 /* Data */,
 			);
 			name = PokedexData;
 			packageProductDependencies = (
 			);
 			productName = PokedexData;
-			productReference = C4C8160F2F31F61C00C439F0 /* PokedexData.framework */;
+			productReference = C4924C862F39D4E900150F59 /* PokedexData.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		C4C816AB2F31F91F00C439F0 /* PokedexTests */ = {
@@ -267,13 +268,14 @@
 			);
 			fileSystemSynchronizedGroups = (
 				C4C816612F31F69800C439F0 /* Domain */,
+				C4C8168F2F31F6AB00C439F0 /* Data */,
 				C4C816AD2F31F92000C439F0 /* PokedexTests */,
 			);
 			name = PokedexTests;
 			packageProductDependencies = (
 			);
 			productName = PokedexTests;
-			productReference = C4C816AC2F31F91F00C439F0 /* PokedexTests.xctest */;
+			productReference = C4924C872F39D4E900150F59 /* PokedexTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		C4F700812F29F2390098A697 /* Pokedex */ = {
@@ -299,7 +301,7 @@
 			packageProductDependencies = (
 			);
 			productName = Pokedex;
-			productReference = C415FAD92F30CF3C003A5A95 /* Pokedex.app */;
+			productReference = C4924C832F39D4E900150F59 /* Pokedex.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
