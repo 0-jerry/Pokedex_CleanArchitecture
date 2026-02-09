@@ -10,14 +10,14 @@ import PokedexDomain
 
 public final class PokedexListViewController: UIViewController {
     
-    private let usecase: PokedexListUsecaseProtocol
+    private let useCase: PokedexListUseCaseProtocol
     private let contentView: PokedexListView
     
     public init(
-        usecase: PokedexListUsecaseProtocol,
+        useCase: PokedexListUseCaseProtocol,
         contentView: PokedexListView
     ) {
-        self.usecase = usecase
+        self.useCase = useCase
         self.contentView = contentView
         super.init(nibName: nil, bundle: nil)
     }

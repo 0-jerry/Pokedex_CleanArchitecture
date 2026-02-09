@@ -10,11 +10,11 @@ import PokedexDomain
 
 public final class PokemonInfoViewController: UIViewController {
     
-    private let usecase: PokemonInfoUsecaseProtocol
+    private let useCase: PokemonInfoUseCaseProtocol
     private let contentView: PokemonInfoView
     
-    public init(usecase: PokemonInfoUsecaseProtocol, contentView: PokemonInfoView) {
-        self.usecase = usecase
+    public init(useCase: PokemonInfoUseCaseProtocol, contentView: PokemonInfoView) {
+        self.useCase = useCase
         self.contentView = contentView
     }
     

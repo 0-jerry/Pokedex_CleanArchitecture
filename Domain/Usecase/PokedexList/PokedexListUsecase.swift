@@ -1,11 +1,12 @@
 //
-//  PokedexListUsecase.swift
+//  PokedexListUseCase.swift
 //  Pokedex
 //
 //  Created by jerry on 2/2/26.
 //
 
-public protocol PokedexListUsecaseProtocol: AnyObject {
+
+public protocol PokedexListUseCaseProtocol: AnyObject {
     func request(_ request: PokedexListRequest)
 }
 public enum PokedexListUsecaseError: Error {
@@ -26,7 +27,7 @@ public enum PokedexListRepositoryError: Error {
     case offline
 }
 
-public final class PokedexListUsecase: PokedexListUsecaseProtocol {
+public final class PokedexListUseCase: PokedexListUseCaseProtocol {
     
     private let outputPort: PokedexListOutputPort
     private let repository: PokedexListRepositoryProtocol
@@ -34,7 +35,7 @@ public final class PokedexListUsecase: PokedexListUsecaseProtocol {
     
     public init(
         outputPort: PokedexListOutputPort,
-         repository: PokedexListRepositoryProtocol
+        repository: PokedexListRepositoryProtocol
     ) {
         self.outputPort = outputPort
         self.repository = repository

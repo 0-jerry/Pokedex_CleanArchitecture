@@ -1,11 +1,11 @@
 //
-//  PokemonInfoUsecase.swift
+//  PokemonInfoUseCase.swift
 //  Pokedex
 //
 //  Created by jerry on 2/9/26.
 //
 
-public protocol PokemonInfoUsecaseProtocol {
+public protocol PokemonInfoUseCaseProtocol {
     func request(_ request: PokemonInfoRequest)
                  
 }
@@ -19,8 +19,7 @@ public protocol PokemonInfoRepositoryProtocol {
     func fetchPokemonImage(_ pokemonID: PokemonID) async throws -> PokemonImageData
 }
 
-
-public final class PokemonInfoUsecase: PokemonInfoUsecaseProtocol {
+public final class PokemonInfoUseCase: PokemonInfoUseCaseProtocol {
     
     private let output: PokemonInfoOutputPort
     private let repository: PokemonInfoRepositoryProtocol
