@@ -10,7 +10,7 @@ import PokedexDomain
 
 protocol PokeAPIURLMapperProtocol {
     func pokemonListURL(offset: Int, limit: Int) -> URL?
-    func pokemonInfoURL(for pokemonID: PokemonID) -> URL?
+    func pokemonURL(for pokemonID: PokemonID) -> URL?
     func pokemonImageURL(for pokemonID: PokemonID) -> URL?
 }
 
@@ -32,7 +32,7 @@ protocol PokeDTOParserProtocol {
     func parsePokemon(from dto: PokemonDTO) async throws -> Pokemon
 }
 
-public final class PokemonRepository: PokedexListRepositoryProtocol {
+public final class PokemonRepository: PokedexListRepositoryProtocol, PokemonInfoRepositoryProtocol {
     
     private let urlMapper: PokeAPIURLMapperProtocol = PokeAPIURLMapper()
     private let networkStatusProvider: NetworkStatusProviderProtocol
@@ -67,6 +67,10 @@ public final class PokemonRepository: PokedexListRepositoryProtocol {
     }
     
     public func fetchPokemonImage(_ pokemonID: PokemonID) async throws -> PokemonImageData {
+    }
+    
+    public func fetchPokemon(_ pokemonID: PokemonID) async throws -> Pokemon {
+        <#code#>
     }
     
 }
