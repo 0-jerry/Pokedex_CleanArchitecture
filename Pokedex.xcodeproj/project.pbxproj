@@ -60,6 +60,7 @@
 		C4924C852F39D4E900150F59 /* PokedexPresentation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PokedexPresentation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4924C862F39D4E900150F59 /* PokedexData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PokedexData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4924C872F39D4E900150F59 /* PokedexTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PokedexTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C4924CF22F39E95600150F59 /* SOLID문서.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "SOLID문서.md"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -132,6 +133,7 @@
 		C415FBBA2F30E71C003A5A95 /* Document */ = {
 			isa = PBXGroup;
 			children = (
+				C4924CF22F39E95600150F59 /* SOLID문서.md */,
 				C415FBB62F30E71C003A5A95 /* 설계.md */,
 				C415FBB72F30E71C003A5A95 /* 요구사항분석.md */,
 				C415FBB82F30E71C003A5A95 /* CheckList.md */,
