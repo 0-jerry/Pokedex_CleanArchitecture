@@ -7,7 +7,6 @@
 
 public protocol PokemonInfoUseCaseProtocol {
     func request(_ request: PokemonInfoRequest)
-                 
 }
 
 public protocol PokemonInfoOutputPort: AnyObject {

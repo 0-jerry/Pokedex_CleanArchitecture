@@ -5,12 +5,13 @@
 //  Created by jerry on 2/2/26.
 //
 
-
 public protocol PokedexListUseCaseProtocol: AnyObject {
     func request(_ request: PokedexListRequest)
 }
-public enum PokedexListUsecaseError: Error {
+
+public enum PokedexListUseCaseError: Error {
     case offline
+    case pokemonIDListIsOnloading
     case pokemonImageLoadFaild(PokemonID)
     case unknown
 }
@@ -28,11 +29,11 @@ public enum PokedexListRepositoryError: Error {
 }
 
 public final class PokedexListUseCase: PokedexListUseCaseProtocol {
-    
     private let outputPort: PokedexListOutputPort
     private let repository: PokedexListRepositoryProtocol
-    private var pokemonIDList: [PokemonID] = []
     
+    private var pokemonIDListIsOnloading: Bool = false
+
     public init(
         outputPort: PokedexListOutputPort,
         repository: PokedexListRepositoryProtocol

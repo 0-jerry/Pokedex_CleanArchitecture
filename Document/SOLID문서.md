@@ -9,17 +9,17 @@
  - 외부 의존성을 전혀 갖지 않습니다.
 
 
-### Usecase
+### Use Case
  
  SRP:
  - 비즈니스 로직에서의 도메인 데이터 호출은 Repository, 비즈니스 로직 응답 출력은 Presenter에게 추상화된 형태로 의존하여,
    비즈니스 로직 처리 흐름만을 담당합니다.
  
  OCP:
- - 인터페이스 추상화를 통해 Controller에서 Usecase의 구체타입 의존성을 추상타입 의존성으로 축소합니다.
+ - 인터페이스 추상화를 통해 Controller에서 Use Case의 구체타입 의존성을 추상타입 의존성으로 축소합니다.
  
  DIP:
- - 처리흐름에 따라 의존성이 필요한 하위 모듈 Presenter, Repository을 Usecase모듈에서 정의해 의존성을 역전합니다.
+ - 처리흐름에 따라 의존성이 필요한 하위 모듈 Presenter, Repository을 Use Case모듈에서 정의해 의존성을 역전합니다.
 
 ---
 

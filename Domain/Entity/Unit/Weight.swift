@@ -5,11 +5,11 @@
 //  Created by jerry on 2/2/26.
 //
 
-internal struct Weight {
-    internal let unit: WeightUnit
-    internal let amount: Int
+public struct Weight {
+    public let unit: WeightUnit
+    public let amount: Int
 }
 
-internal enum WeightUnit {
+public enum WeightUnit {
     case hectogram
 }

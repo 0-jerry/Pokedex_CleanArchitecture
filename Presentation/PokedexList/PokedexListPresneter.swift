@@ -7,6 +7,7 @@
 
 import UIKit
 import PokedexDomain
+
 @MainActor
 public protocol PokedexListRouterProcotol: AnyObject {
     func assign(_ destination: PokedexListDestination)

@@ -9,5 +9,3 @@ struct PokemonTypeDTO: Decodable {
     let slot: Int?
     let type: NamedAPIResource?
 }
-
-

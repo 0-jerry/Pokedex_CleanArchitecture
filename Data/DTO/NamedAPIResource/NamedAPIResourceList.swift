@@ -8,4 +8,3 @@
 struct NamedAPIResourceList: Decodable {
     let results: [NamedAPIResource]?
 }
-

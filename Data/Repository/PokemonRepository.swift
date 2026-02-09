@@ -41,26 +41,31 @@ public final class PokemonRepository: PokedexListRepositoryProtocol, PokemonInfo
     private let cache: CacheProtocol
     
     private var offset: Int = 0
-    private let limit: Int = 21
+    private let limit: Int
     
     public init() {
         self.urlMapper = PokeAPIURLMapper()
-        self.networkStatusProvider = DefaultNetworkStatusProvider()
+        self.networkStatusProvider = NetworkStatusProvider()
         self.networkClient = URLSessionNetworkClient()
         self.parser = PokeDTOParser()
         self.cache = InMemoryCache()
+        self.limit = 21
     }
     
     internal init(
+        urlMapper: PokeAPIURLMapperProtocol,
         networkStatusProvider: NetworkStatusProviderProtocol,
         networkClient: NetworkClientProtocol,
         parser: PokeDTOParserProtocol,
-        cache: CacheProtocol
+        cache: CacheProtocol,
+        limit: Int
     ) {
+        self.urlMapper = urlMapper
         self.networkStatusProvider = networkStatusProvider
         self.networkClient = networkClient
         self.parser = parser
         self.cache = cache
+        self.limit = limit
     }
     
     public func fetchPokemonIDList() async throws -> [PokemonID] {
