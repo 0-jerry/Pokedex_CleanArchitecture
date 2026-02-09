@@ -5,11 +5,13 @@
 //  Created by jerry on 2/9/26.
 //
 
+import Foundation
+
 final class SpyPokedexListRepository: PokedexListRepositoryProtocol {
     // 에러케이스 설정
     var isOffline: Bool = false
     var isUnknown: Bool = false
-    
+    var isAsync: Bool = false
     var isLoadingPokemonIDList: Bool = false
     var pokemonImageRawData: Data?
     private(set) var loadingCount = 0
@@ -18,10 +20,12 @@ final class SpyPokedexListRepository: PokedexListRepositoryProtocol {
     let unknownError = NSError(domain: "Unknown", code: -1)
     
     func fetchPokemonIDList() async throws -> [PokemonID] {
-        isLoadingPokemonIDList = true
         loadingCount += 1
-        // API 로딩중인 경우 리턴 방지
-        while isLoadingPokemonIDList {}
+        
+        if isAsync {
+            isLoadingPokemonIDList = true
+            while isLoadingPokemonIDList {}
+        }
         
         guard !isOffline else { throw PokedexListRepositoryError.offline }
         

@@ -7,10 +7,12 @@
 
 final class SpyPokedexListPresenter: PokedexListOutputPort {
     
+    var remainTaskCount: Int = 0
     private(set) var responses: [PokedexListResponse] = []
     
     func present(_ response: PokedexListResponse) {
         responses.append(response)
+        remainTaskCount -= 1
     }
     
 }

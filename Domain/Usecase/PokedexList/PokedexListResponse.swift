@@ -16,5 +16,5 @@ public enum PokedexListResponse {
     case appendPokemonIDList([PokemonID])
     case setPokemonImage(imageData: PokemonImageData)
     case pushPokemonInfo(pokemonID: PokemonID)
-    case handleError(_ error: Error)
+    case handleError(_ error: PokedexListUseCaseError)
 }
