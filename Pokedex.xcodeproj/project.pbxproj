@@ -7,33 +7,19 @@
 	objects = {
 
 /* Begin PBXContainerItemProxy section */
-		C4C814C32F31F1D900C439F0 /* PBXContainerItemProxy */ = {
+		C4924D6E2F3A16B800150F59 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C4F7007A2F29F2390098A697 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = C4C814BE2F31F1D900C439F0;
 			remoteInfo = PokedexDomain;
 		};
-		C4C814F22F31F20900C439F0 /* PBXContainerItemProxy */ = {
+		C4C814C32F31F1D900C439F0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C4F7007A2F29F2390098A697 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = C4C814ED2F31F20900C439F0;
-			remoteInfo = PokedexPresentation;
-		};
-		C4C815022F31F21300C439F0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C4F7007A2F29F2390098A697 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C4C814FD2F31F21300C439F0;
-			remoteInfo = PokedexData;
-		};
-		C4C816B02F31F92000C439F0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C4F7007A2F29F2390098A697 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C4F700812F29F2390098A697;
-			remoteInfo = Pokedex;
+			remoteGlobalIDString = C4C814BE2F31F1D900C439F0;
+			remoteInfo = PokedexDomain;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -63,6 +49,16 @@
 		C4924CF22F39E95600150F59 /* SOLID문서.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "SOLID문서.md"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		C4924D722F3A16DF00150F59 /* Exceptions for "Pokedex" folder in "Pokedex" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				App/Info.plist,
+			);
+			target = C4F700812F29F2390098A697 /* Pokedex */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		C4C816612F31F69800C439F0 /* Domain */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
@@ -86,6 +82,9 @@
 		};
 		C4F700842F29F2390098A697 /* Pokedex */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				C4924D722F3A16DF00150F59 /* Exceptions for "Pokedex" folder in "Pokedex" target */,
+			);
 			path = Pokedex;
 			sourceTree = "<group>";
 		};
@@ -266,11 +265,10 @@
 			buildRules = (
 			);
 			dependencies = (
-				C4C816B12F31F92000C439F0 /* PBXTargetDependency */,
+				C4924D6F2F3A16B800150F59 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				C4C816612F31F69800C439F0 /* Domain */,
-				C4C8168F2F31F6AB00C439F0 /* Data */,
 				C4C816AD2F31F92000C439F0 /* PokedexTests */,
 			);
 			name = PokedexTests;
@@ -293,8 +291,6 @@
 			);
 			dependencies = (
 				C4C814C42F31F1D900C439F0 /* PBXTargetDependency */,
-				C4C814F32F31F20900C439F0 /* PBXTargetDependency */,
-				C4C815032F31F21300C439F0 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				C4F700842F29F2390098A697 /* Pokedex */,
@@ -435,25 +431,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		C4924D6F2F3A16B800150F59 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C4C814BE2F31F1D900C439F0 /* PokedexDomain */;
+			targetProxy = C4924D6E2F3A16B800150F59 /* PBXContainerItemProxy */;
+		};
 		C4C814C42F31F1D900C439F0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C4C814BE2F31F1D900C439F0 /* PokedexDomain */;
 			targetProxy = C4C814C32F31F1D900C439F0 /* PBXContainerItemProxy */;
-		};
-		C4C814F32F31F20900C439F0 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C4C814ED2F31F20900C439F0 /* PokedexPresentation */;
-			targetProxy = C4C814F22F31F20900C439F0 /* PBXContainerItemProxy */;
-		};
-		C4C815032F31F21300C439F0 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C4C814FD2F31F21300C439F0 /* PokedexData */;
-			targetProxy = C4C815022F31F21300C439F0 /* PBXContainerItemProxy */;
-		};
-		C4C816B12F31F92000C439F0 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C4F700812F29F2390098A697 /* Pokedex */;
-			targetProxy = C4C816B02F31F92000C439F0 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

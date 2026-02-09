@@ -62,6 +62,7 @@ final class PokedexListUseCaseTest: XCTestCase {
         switch responses[0] {
         case .appendPokemonIDList(let pokemonIDLists):
             XCTAssert(pokemonIDLists == expectPokemonIDList)
+            XCTAssert(spyRepository.fetchPokemonIDListCallCount == 1)
         default:
             XCTFail()
         }
@@ -75,14 +76,14 @@ final class PokedexListUseCaseTest: XCTestCase {
         
         sut.request(request)
         sut.request(request)
-        spyRepository.isLoadingPokemonIDList = false
         await waitForPresenterCall(2)
         
         let responses = spyPresenter.responses
-        XCTAssert(responses.count == 1)
+        XCTAssert(responses.count == 2)
         
         switch responses[0] {
         case .handleError(let error):
+            XCTAssert(spyRepository.fetchPokemonIDListCallCount == 1)
             XCTAssert(error == .pokemonIDListIsOnloading)
         default:
             XCTFail()

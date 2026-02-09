@@ -12,19 +12,17 @@ final class SpyPokedexListRepository: PokedexListRepositoryProtocol {
     var isOffline: Bool = false
     var isUnknown: Bool = false
     var isAsync: Bool = false
-    var isLoadingPokemonIDList: Bool = false
     var pokemonImageRawData: Data?
-    private(set) var loadingCount = 0
+    private(set) var fetchPokemonIDListCallCount = 0
     
     let pokemonIDList: [PokemonID] = Array(0...21-1)
     let unknownError = NSError(domain: "Unknown", code: -1)
     
     func fetchPokemonIDList() async throws -> [PokemonID] {
-        loadingCount += 1
+        fetchPokemonIDListCallCount += 1
         
         if isAsync {
-            isLoadingPokemonIDList = true
-            while isLoadingPokemonIDList {}
+                try? await Task.sleep(nanoseconds: 1_000_000)
         }
         
         guard !isOffline else { throw PokedexListRepositoryError.offline }

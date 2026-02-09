@@ -43,11 +43,49 @@ public final class PokedexListUseCase: PokedexListUseCaseProtocol {
     }
     
     public func request(_ request: PokedexListRequest) {
-
+        switch request {
+        case .fetchPokemonIDList:
+            handleFetchPokemonIDList()
+            
+        case .fetchPokemonImage(let pokemonID):
+            handleFetchPokemonImage(pokemonID)
+            
+        case .selectedPokemon(let pokemonID):
+            outputPort.present(.pushPokemonInfo(pokemonID: pokemonID))
+        }
     }
     
-//    private func handle(_ request: PokedexListRequest) async -> PokedexListResponse {
-//        
-//    }
+    private func handleFetchPokemonIDList() {
+        Task { [weak self] in
+            guard let self, !self.pokemonIDListIsOnloading else {
+                self?.outputPort.present(.handleError(.pokemonIDListIsOnloading))
+                return
+            }
+            
+            self.pokemonIDListIsOnloading = true
+            defer { self.pokemonIDListIsOnloading = false }
+            
+            do {
+                let pokemonIDList = try await self.repository.fetchPokemonIDList()
+                self.outputPort.present(.appendPokemonIDList(pokemonIDList))
+            } catch PokedexListRepositoryError.offline {
+                self.outputPort.present(.handleError(.offline))
+            } catch {
+                self.outputPort.present(.handleError(.unknown))
+            }
+        }
+    }
+    
+    private func handleFetchPokemonImage(_ pokemonID: PokemonID) {
+        Task { [weak self] in
+            do {
+                guard let repository = self?.repository else { return }
+                let pokemonImageData = try await repository.fetchPokemonImage(pokemonID)
+                self?.outputPort.present(.setPokemonImage(imageData: pokemonImageData))
+            } catch {
+                self?.outputPort.present(.handleError(.pokemonImageLoadFaild(pokemonID)))
+            }
+        }
+    }
     
 }
