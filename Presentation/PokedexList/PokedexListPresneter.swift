@@ -7,33 +7,32 @@
 
 import UIKit
 import PokedexDomain
-
 @MainActor
-internal protocol PokedexListRouterProcotol: AnyObject {
+public protocol PokedexListRouterProcotol: AnyObject {
     func assign(_ destination: PokedexListDestination)
 }
 
 @MainActor
-internal protocol PokedexListRenderer: AnyObject {
+public protocol PokedexListRenderer: AnyObject {
     func render(_ viewModel: PokedexListViewModel)
 }
 
-enum PokedexListViewModel {
+public enum PokedexListViewModel {
     case appendPokemonList([PokemonID])
     case setupPokemonImage(pokemonID: PokemonID, image: UIImage)
     case showErrorAlert(title: String, message: String)
 }
 
-enum PokedexListDestination {
+public enum PokedexListDestination {
     case pushPokemonInfo(PokemonID)
 }
 
-internal final class PokedexListPresneter: PokedexListOutputPort {
+public final class PokedexListPresneter: PokedexListOutputPort {
     
     private let router: PokedexListRouterProcotol
     private weak var renderer: (PokedexListRenderer)?
     
-    internal init(
+    public init(
         router: PokedexListRouterProcotol,
         renderer: PokedexListRenderer?
     ) {
@@ -41,9 +40,11 @@ internal final class PokedexListPresneter: PokedexListOutputPort {
         self.renderer = renderer
     }
     
-    func present(_ response: PokedexListResponse) {
+    public func present(_ response: PokedexListResponse) {
         let viewModel = convert(response)
-        renderer?.render(viewModel)
+        Task { [weak renderer] in
+            await renderer?.render(viewModel)
+        }
     }
     
     private func convert(_ response: PokedexListResponse) -> PokedexListViewModel {

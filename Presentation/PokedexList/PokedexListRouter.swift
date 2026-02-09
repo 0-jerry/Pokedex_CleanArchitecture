@@ -8,15 +8,15 @@
 import UIKit
 import PokedexDomain
 
-internal final class PokedexListRouter: PokedexListRouterProcotol {
+public final class PokedexListRouter: PokedexListRouterProcotol {
 
     private weak var navigationController: UINavigationController?
     
-    internal init(navigationController: UINavigationController?) {
+    public init(navigationController: UINavigationController?) {
         self.navigationController = navigationController
     }
     
-    func assign(_ destination: PokedexListDestination) {
+    public func assign(_ destination: PokedexListDestination) {
         <#code#>
     }
     

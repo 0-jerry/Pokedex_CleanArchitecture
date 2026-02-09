@@ -5,10 +5,10 @@
 //  Created by jerry on 2/2/26.
 //
 
-internal struct Pokemon {
-    internal let id: PokemonID
-    internal let name: String
-    internal let types: [PokemonType]
-    internal let height: Int
-    internal let weight: Int
+public struct Pokemon {
+    public let id: PokemonID
+    public let name: String
+    public let types: [PokemonType]
+    public let height: Int
+    public let weight: Int
 }

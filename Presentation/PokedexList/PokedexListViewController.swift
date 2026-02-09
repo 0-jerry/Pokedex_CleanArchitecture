@@ -8,12 +8,12 @@
 import UIKit
 import PokedexDomain
 
-internal final class PokedexListViewController: UIViewController {
+public final class PokedexListViewController: UIViewController {
     
     private let usecase: PokedexListUsecaseProtocol
     private let contentView: PokedexListView
     
-    internal init(
+    public init(
         usecase: PokedexListUsecaseProtocol,
         contentView: PokedexListView
     ) {
@@ -26,7 +26,7 @@ internal final class PokedexListViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func loadView() {
+    public override func loadView() {
         super.loadView()
         self.view = contentView
     }

@@ -5,37 +5,34 @@
 //  Created by jerry on 2/2/26.
 //
 
-internal protocol PokedexListUsecaseProtocol: AnyObject {
+public protocol PokedexListUsecaseProtocol: AnyObject {
     func request(_ request: PokedexListRequest)
 }
-
-internal protocol PokedexListOutputPort: AnyObject {
-    func present(_ response: PokedexListResponse)
-}
-
-internal protocol PokedexListRepositoryProtocol {
-    func fetchPokemonIDList() async throws -> [PokemonID]
-    func fetchPokemonImage(_ pokemonID: PokemonID) async throws -> PokemonImageData
-}
-
-internal enum PokedexListRepositoryError: Error {
-    case offline
-    case unknown
-}
-
-internal enum PokedexListUsecaseError: Error {
+public enum PokedexListUsecaseError: Error {
     case offline
     case pokemonImageLoadFaild(PokemonID)
     case unknown
 }
 
-internal final class PokedexListUsecase: PokedexListUsecaseProtocol {
+public protocol PokedexListOutputPort: AnyObject {
+    func present(_ response: PokedexListResponse)
+}
+
+public protocol PokedexListRepositoryProtocol {
+    func fetchPokemonIDList() async throws -> [PokemonID]
+    func fetchPokemonImage(_ pokemonID: PokemonID) async throws -> PokemonImageData
+}
+public enum PokedexListRepositoryError: Error {
+    case offline
+}
+
+public final class PokedexListUsecase: PokedexListUsecaseProtocol {
     
     private let outputPort: PokedexListOutputPort
     private let repository: PokedexListRepositoryProtocol
     private var pokemonIDList: [PokemonID] = []
     
-    internal init(
+    public init(
         outputPort: PokedexListOutputPort,
          repository: PokedexListRepositoryProtocol
     ) {
@@ -43,7 +40,7 @@ internal final class PokedexListUsecase: PokedexListUsecaseProtocol {
         self.repository = repository
     }
     
-    internal func request(_ request: PokedexListRequest) {
+    public func request(_ request: PokedexListRequest) {
 
     }
     

@@ -5,7 +5,7 @@
 //  Created by jerry on 2/2/26.
 //
 
-internal enum PokemonType {
+public enum PokemonType {
     case normal
     case fighting
     case flying
