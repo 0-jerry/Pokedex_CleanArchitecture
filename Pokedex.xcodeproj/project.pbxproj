@@ -269,6 +269,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				C4C816612F31F69800C439F0 /* Domain */,
+				C4C8168F2F31F6AB00C439F0 /* Data */,
 				C4C816AD2F31F92000C439F0 /* PokedexTests */,
 			);
 			name = PokedexTests;
