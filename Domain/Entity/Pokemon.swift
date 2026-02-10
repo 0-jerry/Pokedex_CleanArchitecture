@@ -9,6 +9,6 @@ public struct Pokemon {
     public let id: PokemonID
     public let name: String
     public let types: [PokemonType]
-    public let height: Int
-    public let weight: Int
+    public let height: Height
+    public let weight: Weight
 }
