@@ -7,9 +7,8 @@
 
 struct StubPokeDTOParser: PokeDTOParserProtocol {
     
-    let tempPokemonIDList: [PokemonID] = Array(0...20)
-    let tempPokemon: Pokemon = .init(id: 0, name: "test", types: [.bug],
-                                 height: 10, weight: 10)
+    var tempPokemonIDList: [PokemonID]!
+    var tempPokemon: Pokemon!
     
     func parsePokemonIDList(from dto: NamedAPIResourceList) async throws -> [PokemonID] {
         return tempPokemonIDList
