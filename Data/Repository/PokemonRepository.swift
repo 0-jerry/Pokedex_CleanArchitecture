@@ -34,37 +34,37 @@ protocol PokeDTOParserProtocol {
 
 public final class PokemonRepository: PokedexListRepositoryProtocol, PokemonInfoRepositoryProtocol {
     
-    private let urlMapper: PokeAPIURLMapperProtocol = PokeAPIURLMapper()
+    private let urlMapper: PokeAPIURLMapperProtocol
+    private let cache: CacheProtocol
     private let networkStatusProvider: NetworkStatusProviderProtocol
     private let networkClient: NetworkClientProtocol
     private let parser: PokeDTOParserProtocol
-    private let cache: CacheProtocol
     
     private var offset: Int = 0
     private let limit: Int
     
-    public init() {
+    public init(limit: Int = 21) {
         self.urlMapper = PokeAPIURLMapper()
+        self.cache = InMemoryCache()
         self.networkStatusProvider = NetworkStatusProvider()
         self.networkClient = URLSessionNetworkClient()
         self.parser = PokeDTOParser()
-        self.cache = InMemoryCache()
         self.limit = 21
     }
     
     internal init(
         urlMapper: PokeAPIURLMapperProtocol,
+        cache: CacheProtocol,
         networkStatusProvider: NetworkStatusProviderProtocol,
         networkClient: NetworkClientProtocol,
         parser: PokeDTOParserProtocol,
-        cache: CacheProtocol,
         limit: Int
     ) {
         self.urlMapper = urlMapper
+        self.cache = cache
         self.networkStatusProvider = networkStatusProvider
         self.networkClient = networkClient
         self.parser = parser
-        self.cache = cache
         self.limit = limit
     }
     
