@@ -8,31 +8,22 @@
 import Foundation
 
 final class StubNetworkClient: NetworkClientProtocol {
-    var unknownError: (any Error)!
+    let unknownError = NSError(domain: "UnKnown", code: -1)
     var callCount: Int = 0
     var isEnable: Bool = true
-    var namedAPIResourceListDTO: [URL: NamedAPIResourceList] = [:]
-    var pokemonDTO: [URL: PokemonDTO] = [:]
-    var pokemonImageDTO: [URL: Data] = [:]
-
-    func fetch<DTO: Decodable>(_ url: URL) async throws -> DTO {
-        guard isEnable else { throw unknownError }
-        
+    var response: [URL: Data] = [:]
+    
+    func fetch(_ url: URL) async throws -> Data {
         callCount += 1
-        
-        if DTO.self is NamedAPIResourceList.Type {
-            guard let result = self.namedAPIResourceListDTO[url] as? DTO else { throw unknownError }
-            return result
-            
-        } else if DTO.self is PokemonDTO.Type {
-            guard let result = self.pokemonDTO[url] as? DTO else { throw unknownError }
-            return result
-            
-        } else if DTO.self is Data.Type {
-            guard let result = self.pokemonImageDTO[url] as? DTO else { throw unknownError }
-            return result
-        } else {
+
+        guard isEnable else {
             throw unknownError
         }
+                
+        guard let data = response[url] else {
+            throw NSError(domain: "", code: 1)
+        }
+        
+        return data
     }
 }

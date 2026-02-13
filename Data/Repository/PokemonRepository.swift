@@ -9,17 +9,9 @@ import Foundation
 import PokedexDomain
 
 protocol PokeAPIURLMapperProtocol {
-    func pokemonListURL(offset: Int, limit: Int) -> URL?
+    func pokemonIDListURL(offset: Int, limit: Int) -> URL?
     func pokemonURL(for pokemonID: PokemonID) -> URL?
     func pokemonImageURL(for pokemonID: PokemonID) -> URL?
-}
-
-protocol NetworkStatusProviderProtocol {
-    var isConnected: Bool { get }
-}
-
-protocol NetworkClientProtocol {
-    func fetch<DTO: Decodable>(_ url: URL) async throws -> DTO
 }
 
 protocol CacheProtocol {
@@ -27,18 +19,26 @@ protocol CacheProtocol {
     func value<Value>(forKey key: URL) async -> Value?
 }
 
-protocol PokeDTOParserProtocol {
-    func parsePokemonIDList(from dto: NamedAPIResourceList) async throws -> [PokemonID]
-    func parsePokemon(from dto: PokemonDTO) async throws -> Pokemon
+protocol NetworkStatusProviderProtocol {
+    var isConnected: Bool { get }
+}
+
+protocol NetworkClientProtocol {
+    func fetch(_ url: URL) async throws -> Data
+}
+
+protocol PokeAPIParserProtocol {
+    func pokemonIDList(data: Data) throws -> [PokemonID]
+    func pokemon(data: Data) throws -> Pokemon
+    func pokemonImageData(pokemonID: PokemonID, data: Data) throws -> PokemonImageData
 }
 
 public final class PokemonRepository: PokedexListRepositoryProtocol, PokemonInfoRepositoryProtocol {
-    
     private let urlMapper: PokeAPIURLMapperProtocol
     private let cache: CacheProtocol
     private let networkStatusProvider: NetworkStatusProviderProtocol
     private let networkClient: NetworkClientProtocol
-    private let parser: PokeDTOParserProtocol
+    private let parser: PokeAPIParserProtocol
     
     private var offset: Int = 0
     private let limit: Int
@@ -48,7 +48,7 @@ public final class PokemonRepository: PokedexListRepositoryProtocol, PokemonInfo
         self.cache = InMemoryCache()
         self.networkStatusProvider = NetworkStatusProvider()
         self.networkClient = URLSessionNetworkClient()
-        self.parser = PokeDTOParser()
+        self.parser = PokeAPIParser()
         self.limit = 21
     }
     
@@ -57,7 +57,7 @@ public final class PokemonRepository: PokedexListRepositoryProtocol, PokemonInfo
         cache: CacheProtocol,
         networkStatusProvider: NetworkStatusProviderProtocol,
         networkClient: NetworkClientProtocol,
-        parser: PokeDTOParserProtocol,
+        parser: PokeAPIParserProtocol,
         limit: Int
     ) {
         self.urlMapper = urlMapper

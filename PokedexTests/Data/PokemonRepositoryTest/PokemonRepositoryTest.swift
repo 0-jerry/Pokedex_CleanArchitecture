@@ -29,7 +29,6 @@
  Pokemon Image
  
  */
-
 import XCTest
 
 final class PokemonRepositoryTest: XCTestCase {
@@ -48,7 +47,7 @@ final class PokemonRepositoryTest: XCTestCase {
     private var fakeCache: FakeCache!
     private var stubNetworkStatusProvider: StubNetworkStatusProvider!
     private var stubNetworkClient: StubNetworkClient!
-    private var stubPokeDTOParser: StubPokeDTOParser!
+    private var stubPokeAPIParser: StubPokeAPIParser!
     
     override func setUp() {
         super.setUp()
@@ -56,13 +55,13 @@ final class PokemonRepositoryTest: XCTestCase {
         fakeCache = FakeCache()
         stubNetworkStatusProvider = StubNetworkStatusProvider()
         stubNetworkClient = StubNetworkClient()
-        stubPokeDTOParser = StubPokeDTOParser()
+        stubPokeAPIParser = StubPokeAPIParser()
         
         sut = PokemonRepository(urlMapper: spyPokeAPIURLMapper,
                                 cache: fakeCache,
                                 networkStatusProvider: stubNetworkStatusProvider,
                                 networkClient: stubNetworkClient,
-                                parser: stubPokeDTOParser,
+                                parser: stubPokeAPIParser,
                                 limit: TestConstants.limit)
     }
     
@@ -72,7 +71,7 @@ final class PokemonRepositoryTest: XCTestCase {
         fakeCache = nil
         stubNetworkStatusProvider = nil
         stubNetworkClient = nil
-        stubPokeDTOParser = nil
+        stubPokeAPIParser = nil
         
         super.tearDown()
     }
@@ -81,30 +80,51 @@ final class PokemonRepositoryTest: XCTestCase {
 // MARK: 0. URL 매핑 테스트
 // 호출 카운트, 파라미터
 extension PokemonRepositoryTest {
-    func test_URL매핑_호출_성공() async {
-        let _ = try? await sut.fetchPokemonIDList()
+    
+    func test_URL매핑_포켓몬ID리스트_호출_실패() async {
+        var expect: [PokemonIDListFetchParameter] = []
         
-        var offset = 0
-        var expectPokemonListFetchParameter: [PokemonIDListFetchParameter] = []
-        
-        for _ in 0..<TestConstants.urlMappingTestIterations {
+        for _ in 0...2 {
             let _ = try? await sut.fetchPokemonIDList()
-            expectPokemonListFetchParameter.append(PokemonIDListFetchParameter(offset: offset, limit: TestConstants.limit))
+            expect.append(PokemonIDListFetchParameter(offset: 0, limit: TestConstants.limit))
+        }
+        
+        let result = spyPokeAPIURLMapper.fetchedPokemonListURLParameter
+            .map { PokemonIDListFetchParameter(offset: $0.offset, limit: $0.limit) }
+        
+        XCTAssertEqual(expect, result,
+                       "[fetch - fail] Pokemon list URL parameters should match expected values")
+    }
+    
+    func test_URL매핑_포켓몬ID리스트_호출_성공() async {
+        var offset = 0
+        var expect: [PokemonIDListFetchParameter] = []
+        
+        stubNetworkClient.response[spyPokeAPIURLMapper.tempPokemonListURL] = makePokemonIDListDTO().data
+        stubPokeAPIParser.tempPokemonIDList = makePokemonIDList()
+        
+        for _ in 0...2 {
+            let _ = try? await sut.fetchPokemonIDList()
+            expect.append(PokemonIDListFetchParameter(offset: offset, limit: TestConstants.limit))
             offset += TestConstants.limit
         }
         
-        let fetchedPokemonListURLParameter = spyPokeAPIURLMapper.fetchedPokemonListURLParameter
+        let result = spyPokeAPIURLMapper.fetchedPokemonListURLParameter
             .map { PokemonIDListFetchParameter(offset: $0.offset, limit: $0.limit) }
         
-        XCTAssertEqual(expectPokemonListFetchParameter, fetchedPokemonListURLParameter,
-                       "Pokemon list URL parameters should match expected values")
-        
+        XCTAssertEqual(expect, result,
+                       "[fetch - success] Pokemon list URL parameters should match expected values")
+    }
+    
+    func test_URL매핑_포켓몬_호출_성공() async {
         for pokemonID in TestConstants.testPokemonIDs {
             let _ = try? await sut.fetchPokemon(pokemonID)
         }
         XCTAssertEqual(TestConstants.testPokemonIDs, spyPokeAPIURLMapper.fetchedPokemonURLParameter,
                        "Pokemon URL parameters should match test IDs")
-        
+    }
+    
+    func test_URL매핑_포켓몬이미지_호출_성공() async {
         for pokemonID in TestConstants.testImageIDs {
             let _ = try? await sut.fetchPokemonImage(pokemonID)
         }
@@ -120,10 +140,9 @@ extension PokemonRepositoryTest {
 extension PokemonRepositoryTest {
     func test_포켓몬ID리스트_캐시히트_호출_성공() async {
         // Arrange
-        let pokemonListURL: URL = spyPokeAPIURLMapper.tempPokemonListURL
+        let url = spyPokeAPIURLMapper.tempPokemonListURL
         let pokemonIDList: [PokemonID] = makePokemonIDList()
-        
-        fakeCache.cache[pokemonListURL] = pokemonIDList
+        fakeCache.cache[url] = pokemonIDList
         stubNetworkStatusProvider.isConnected = false
         
         // Act
@@ -133,7 +152,6 @@ extension PokemonRepositoryTest {
         XCTAssertEqual(result, pokemonIDList,
                        "Result should match cached pokemon ID list")
         assertCacheHit()
-        
     }
     
     func test_포켓몬_캐시히트_호출_성공() async {
@@ -179,15 +197,15 @@ extension PokemonRepositoryTest {
 // 실행 전: 캐시 데이터 X, 네트워크 연결됨
 // 실행 후: 캐시 데이터 호출, 캐시 히트 실패, 네트워크 호출, 캐시 저장 호출, 반환값 일치
 extension PokemonRepositoryTest {
+    
     func test_포켓몬ID리스트_네트워크_호출_성공() async {
         // Arrange
         let url = spyPokeAPIURLMapper.tempPokemonListURL
-        let dto = makePokemonIDListDTO()
         let model = makePokemonIDList()
         
-        stubNetworkClient.namedAPIResourceListDTO[url] = dto
-        stubPokeDTOParser.tempPokemonIDList = model
-        
+        stubNetworkClient.response[spyPokeAPIURLMapper.tempPokemonListURL] = makePokemonIDListDTO().data
+        stubPokeAPIParser.tempPokemonIDList = model
+
         // Act
         let result = try? await sut.fetchPokemonIDList()
         
@@ -206,12 +224,10 @@ extension PokemonRepositoryTest {
         // Arrange
         let pokemonID = TestConstants.defaultPokemonID
         let url = spyPokeAPIURLMapper.tempPokemonURL
-        let dto = makePokemonDTO(pokemonID)
         let model = makePokemon(pokemonID)
         
-        stubNetworkClient.pokemonDTO[url] = dto
-        stubPokeDTOParser.tempPokemon = model
-        
+        stubNetworkClient.response[spyPokeAPIURLMapper.tempPokemonURL] = makePokemonDTO(pokemonID).data
+        stubPokeAPIParser.tempPokemon = model
         // Act
         let result = try? await sut.fetchPokemon(pokemonID)
         
@@ -230,10 +246,10 @@ extension PokemonRepositoryTest {
         // Arrange
         let pokemonID = TestConstants.defaultPokemonID
         let url = spyPokeAPIURLMapper.tempPokemonImageURL
-        let dto = makePokemonImageDataDTO(pokemonID)
         let model = makePokemonImageData(pokemonID)
-        
-        stubNetworkClient.pokemonImageDTO[url] = dto
+
+        stubNetworkClient.response[spyPokeAPIURLMapper.tempPokemonImageURL] = makePokemonImageDataDTO(pokemonID)
+        stubPokeAPIParser.tempPokemonImageData = model
         
         // Act
         let result = try? await sut.fetchPokemonImage(pokemonID)
@@ -248,13 +264,14 @@ extension PokemonRepositoryTest {
         }
         XCTAssertEqual(cachedValue, model, "Cached value should match the model")
     }
+    
 }
 
 // MARK: 3. 캐시 없음 -> 네트워크 미연결 -> throw PokedexListRepositoryError.offline
 // 캐시 데이터 호출, 캐시 히트 실패, 네트워크 미호출, 캐시 저장 미호출
 extension PokemonRepositoryTest {
     
-    func test_포켓몬ID_오프라인_호출_실패() async {
+    func test_포켓몬ID리스트_오프라인_호출_실패() async {
         // Arrange
         stubNetworkStatusProvider.isConnected = false
         
@@ -306,7 +323,7 @@ extension PokemonRepositoryTest {
 // 캐시 데이터 호출, 캐시 히트 실패, 네트워크 호출, 캐시 저장 미호출
 extension PokemonRepositoryTest {
     
-    func test_포켓몬ID_알_수_없는_호출_실패() async {
+    func test_포켓몬ID리스트_알_수_없는_호출_실패() async {
         // Arrange
         stubNetworkClient.isEnable = false
         
@@ -355,6 +372,7 @@ extension PokemonRepositoryTest {
             assertNetworkError()
         }
     }
+    
 }
 
 // MARK: - Test Data Factories
@@ -471,3 +489,4 @@ private extension PokemonRepositoryTest {
                        file: file, line: line)
     }
 }
+
