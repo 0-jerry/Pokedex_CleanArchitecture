@@ -8,8 +8,13 @@
 import Foundation.NSData
 
 public struct PokemonImageData {
-    let pokemonID: PokemonID
-    let data: Data
+    public let pokemonID: PokemonID
+    public let data: Data
+    
+    public init(pokemonID: PokemonID, data: Data) {
+        self.pokemonID = pokemonID
+        self.data = data
+    }
 }
 
 public enum PokedexListResponse {
