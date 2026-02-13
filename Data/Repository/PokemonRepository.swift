@@ -69,13 +69,64 @@ public final class PokemonRepository: PokedexListRepositoryProtocol, PokemonInfo
     }
     
     public func fetchPokemonIDList() async throws -> [PokemonID] {
-    }
-    
-    public func fetchPokemonImage(_ pokemonID: PokemonID) async throws -> PokemonImageData {
+        let pokemonIDList: [PokemonID]
+        
+        var nextOffset = offset
+        defer { offset = nextOffset }
+        
+        guard let url = urlMapper.pokemonIDListURL(offset: offset, limit: limit) else {
+            throw URLError(.unknown)
+        }
+        
+        if let cached: [PokemonID] = await cache.value(forKey: url) {
+            pokemonIDList = cached
+        } else {
+            let data = try await fetchData(url)
+            pokemonIDList = try parser.pokemonIDList(data: data)
+            await cache.setValue(pokemonIDList, forKey: url)
+        }
+        
+        nextOffset += pokemonIDList.count
+        return pokemonIDList
     }
     
     public func fetchPokemon(_ pokemonID: PokemonID) async throws -> Pokemon {
-        <#code#>
+        guard let url = urlMapper.pokemonURL(for: pokemonID) else {
+            throw URLError(.unknown)
+        }
+        
+        if let cached: Pokemon = await cache.value(forKey: url) {
+            return cached
+        } else {
+            let data = try await fetchData(url)
+            let pokemon = try parser.pokemon(data: data)
+            await cache.setValue(pokemon, forKey: url)
+            
+            return pokemon
+        }
+    }
+    
+    public func fetchPokemonImage(_ pokemonID: PokemonID) async throws -> PokemonImageData {
+        guard let url = urlMapper.pokemonImageURL(for: pokemonID) else {
+            throw URLError(.unknown)
+        }
+        if let cached: PokemonImageData = await cache.value(forKey: url) {
+            return cached
+        } else {
+            let data = try await fetchData(url)
+            let pokemonImageData = try parser.pokemonImageData(pokemonID: pokemonID, data: data)
+            await cache.setValue(pokemonImageData, forKey: url)
+            
+            return pokemonImageData
+        }
+    }
+    
+    private func fetchData(_ url: URL) async throws -> Data {
+        guard networkStatusProvider.isConnected else {
+            throw PokedexListRepositoryError.offline
+        }
+        let result = try await networkClient.fetch(url)
+        return result
     }
     
 }
