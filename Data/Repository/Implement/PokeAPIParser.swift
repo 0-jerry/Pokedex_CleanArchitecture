@@ -1,5 +1,5 @@
 //
-//  PokeDTOParser.swift
+//  PokeAPIParser.swift
 //  Pokedex
 //
 //  Created by jerry on 2/9/26.
@@ -8,8 +8,8 @@
 import Foundation
 import PokedexDomain
 
-class PokeAPIParser: PokeAPIParserProtocol {
-
+struct PokeAPIParser: PokeAPIParserProtocol {
+    
     func pokemonIDList(data: Data) throws -> [PokemonID] {
         guard let dto = try JSONDecoder().decode(NamedAPIResourceList.self, from: data).results else {
             throw NSError(domain: "\(Self.self) \(#function) - Invalid Data", code: -1)
@@ -27,21 +27,20 @@ class PokeAPIParser: PokeAPIParserProtocol {
             throw NSError(domain: "\(Self.self) \(#function) - Invalid Data", code: -1)
         }
         
-        let type: [PokemonType] = rawType.compactMap {
-            guard let rawValue = $0.type?.name else {
-                return nil
-            }
-            return pokemonType(rawValue)
-        }
+        let type: [PokemonType] = rawType.compactMap { pokemonType($0) }
         let height = Height(unit: .decimeter, amount: rawHeight)
         let weight = Weight(unit: .hectogram, amount: rawWeight)
         
         return Pokemon(id: id, name: name, types: type, height: height, weight: weight)
     }
-
+    
     func pokemonImageData(pokemonID: PokemonID, data: Data) throws -> PokemonImageData {
         PokemonImageData(pokemonID: pokemonID, data: data)
     }
+    
+}
+
+extension PokeAPIParser {
     
     private func pokemonID(_ rawValue: NamedAPIResource) -> PokemonID? {
         guard var url = rawValue.url else { return nil }
@@ -51,7 +50,11 @@ class PokeAPIParser: PokeAPIParserProtocol {
         return Int(raw)
     }
     
-    private func pokemonType(_ rawValue: String) -> PokemonType? {
+    private func pokemonType(_ rawValue: PokemonTypeDTO) -> PokemonType? {
+        guard let rawValue = rawValue.type?.name else {
+            return nil
+        }
+        
         switch rawValue {
         case "normal": return .normal
         case "fighting": return .fighting

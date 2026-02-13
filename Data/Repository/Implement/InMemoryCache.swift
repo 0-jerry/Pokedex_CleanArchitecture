@@ -6,9 +6,8 @@
 //
 
 import Foundation
-import CryptoKit
 
-struct InMemoryCache: CacheProtocol {
+final actor InMemoryCache: CacheProtocol {
     
     private typealias Key = NSString
     
@@ -27,7 +26,7 @@ struct InMemoryCache: CacheProtocol {
     }
     
     private func convert(_ url: URL) -> Key {
-        SHA256.hash(data: url.dataRepresentation).description as NSString
+        url.absoluteString as Key
     }
 }
 
