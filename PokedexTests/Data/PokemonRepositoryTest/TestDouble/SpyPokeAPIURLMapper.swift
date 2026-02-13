@@ -11,6 +11,7 @@ struct PokemonIDListFetchParameter: Equatable {
     let offset: Int
     let limit: Int
 }
+
 final class SpyPokeAPIURLMapper: PokeAPIURLMapperProtocol {
     
     private(set) var fetchedPokemonListURLParameter: [PokemonIDListFetchParameter] = []
@@ -21,7 +22,7 @@ final class SpyPokeAPIURLMapper: PokeAPIURLMapperProtocol {
     let tempPokemonURL = URL(string: "www.PokemonURL.test")!
     let tempPokemonImageURL = URL(string: "www.PokemonImageURL.test")!
     
-    func pokemonListURL(offset: Int, limit: Int) -> URL? {
+    func pokemonIDListURL(offset: Int, limit: Int) -> URL? {
         fetchedPokemonListURLParameter.append(PokemonIDListFetchParameter(offset: offset, limit: limit))
         return tempPokemonListURL
     }

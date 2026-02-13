@@ -8,7 +8,7 @@
 import Foundation
 
 final class StubNetworkClient: NetworkClientProtocol {
-    let unknownError = NSError(domain: "UnKnown", code: -1)
+    let unknownError = NSError(domain: "Unknown", code: -1)
     var callCount: Int = 0
     var isEnable: Bool = true
     var response: [URL: Data] = [:]

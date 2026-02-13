@@ -7,7 +7,7 @@
 
 import Foundation
 
-class StubPokeAPIParser: PokeAPIParserProtocol {
+final class StubPokeAPIParser: PokeAPIParserProtocol {
     
     func pokemon(data: Data) throws -> Pokemon {
         guard let pokemon = tempPokemon else {
