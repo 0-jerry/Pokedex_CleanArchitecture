@@ -21,9 +21,10 @@ public protocol PokedexListOutputPort: AnyObject {
 }
 
 public protocol PokedexListRepositoryProtocol {
-    func fetchPokemonIDList() async throws -> [PokemonID]
+    func fetchPokemonIDList(offset: Int) async throws -> [PokemonID]
     func fetchPokemonImage(_ pokemonID: PokemonID) async throws -> PokemonImageData
 }
+
 public enum PokedexListRepositoryError: Error {
     case offline
 }
@@ -32,8 +33,6 @@ public final class PokedexListUseCase: PokedexListUseCaseProtocol {
     private let outputPort: PokedexListOutputPort
     private let repository: PokedexListRepositoryProtocol
     
-    private var pokemonIDListIsOnloading: Bool = false
-
     public init(
         outputPort: PokedexListOutputPort,
         repository: PokedexListRepositoryProtocol
@@ -44,8 +43,8 @@ public final class PokedexListUseCase: PokedexListUseCaseProtocol {
     
     public func request(_ request: PokedexListRequest) {
         switch request {
-        case .fetchPokemonIDList:
-            handleFetchPokemonIDList()
+        case .fetchPokemonIDList(offset: let offset):
+            handleFetchPokemonIDList(offset: offset)
             
         case .fetchPokemonImage(let pokemonID):
             handleFetchPokemonImage(pokemonID)
@@ -55,23 +54,18 @@ public final class PokedexListUseCase: PokedexListUseCaseProtocol {
         }
     }
     
-    private func handleFetchPokemonIDList() {
+    private func handleFetchPokemonIDList(offset: Int) {
         Task { [weak self] in
-            guard let self, !self.pokemonIDListIsOnloading else {
-                self?.outputPort.present(.handleError(.pokemonIDListIsOnloading))
-                return
-            }
-            
-            self.pokemonIDListIsOnloading = true
-            defer { self.pokemonIDListIsOnloading = false }
-            
             do {
-                let pokemonIDList = try await self.repository.fetchPokemonIDList()
-                self.outputPort.present(.appendPokemonIDList(pokemonIDList))
+                guard let pokemonIDList = try await self?.repository.fetchPokemonIDList(offset: offset) else {
+                    self?.outputPort.present(.handleError(.unknown))
+                    return
+                }
+                self?.outputPort.present(.appendPokemonIDList(pokemonIDList))
             } catch PokedexListRepositoryError.offline {
-                self.outputPort.present(.handleError(.offline))
+                self?.outputPort.present(.handleError(.offline))
             } catch {
-                self.outputPort.present(.handleError(.unknown))
+                self?.outputPort.present(.handleError(.unknown))
             }
         }
     }

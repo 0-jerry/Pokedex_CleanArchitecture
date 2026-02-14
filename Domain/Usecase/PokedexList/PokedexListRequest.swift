@@ -6,7 +6,7 @@
 //
 
 public enum PokedexListRequest {
-    case fetchPokemonIDList
+    case fetchPokemonIDList(offset: Int)
     case fetchPokemonImage(PokemonID)
     case selectedPokemon(PokemonID)
 }
