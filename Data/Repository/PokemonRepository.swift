@@ -15,8 +15,8 @@ protocol PokeAPIURLMapperProtocol {
 }
 
 protocol CacheProtocol {
-    func setValue<Value>(_ value: Value, forKey key: URL) async
-    func value<Value>(forKey key: URL) async -> Value?
+    func setValue(_ value: Data, forKey key: String) async
+    func value(forKey key: String) async -> Data?
 }
 
 protocol NetworkStatusProviderProtocol {
@@ -40,7 +40,6 @@ public final class PokemonRepository: PokedexListRepositoryProtocol, PokemonInfo
     private let networkClient: NetworkClientProtocol
     private let parser: PokeAPIParserProtocol
     
-    private var offset: Int = 0
     private let limit: Int
     
     public init(limit: Int = 21) {
@@ -49,7 +48,7 @@ public final class PokemonRepository: PokedexListRepositoryProtocol, PokemonInfo
         self.networkStatusProvider = NetworkStatusProvider()
         self.networkClient = URLSessionNetworkClient()
         self.parser = PokeAPIParser()
-        self.limit = 21
+        self.limit = limit
     }
     
     internal init(
@@ -68,25 +67,14 @@ public final class PokemonRepository: PokedexListRepositoryProtocol, PokemonInfo
         self.limit = limit
     }
     
-    public func fetchPokemonIDList() async throws -> [PokemonID] {
-        let pokemonIDList: [PokemonID]
-        
-        var nextOffset = offset
-        defer { offset = nextOffset }
-        
+    public func fetchPokemonIDList(offset: Int) async throws -> [PokemonID] {
         guard let url = urlMapper.pokemonIDListURL(offset: offset, limit: limit) else {
             throw URLError(.unknown)
         }
         
-        if let cached: [PokemonID] = await cache.value(forKey: url) {
-            pokemonIDList = cached
-        } else {
-            let data = try await fetchData(url)
-            pokemonIDList = try parser.pokemonIDList(data: data)
-            await cache.setValue(pokemonIDList, forKey: url)
-        }
-        
-        nextOffset += pokemonIDList.count
+        let fetchedData = try await fetchData(url)
+        let pokemonIDList = try parser.pokemonIDList(data: fetchedData)
+
         return pokemonIDList
     }
     
@@ -95,38 +83,40 @@ public final class PokemonRepository: PokedexListRepositoryProtocol, PokemonInfo
             throw URLError(.unknown)
         }
         
-        if let cached: Pokemon = await cache.value(forKey: url) {
-            return cached
-        } else {
-            let data = try await fetchData(url)
-            let pokemon = try parser.pokemon(data: data)
-            await cache.setValue(pokemon, forKey: url)
-            
-            return pokemon
-        }
+        let fetchedData = try await fetchData(url)
+        let pokemon = try parser.pokemon(data: fetchedData)
+        
+        return pokemon
     }
     
     public func fetchPokemonImage(_ pokemonID: PokemonID) async throws -> PokemonImageData {
         guard let url = urlMapper.pokemonImageURL(for: pokemonID) else {
             throw URLError(.unknown)
         }
-        if let cached: PokemonImageData = await cache.value(forKey: url) {
-            return cached
-        } else {
-            let data = try await fetchData(url)
-            let pokemonImageData = try parser.pokemonImageData(pokemonID: pokemonID, data: data)
-            await cache.setValue(pokemonImageData, forKey: url)
-            
-            return pokemonImageData
-        }
+        
+        let fetchedData = try await fetchData(url)
+        let pokemonImageData = try parser.pokemonImageData(pokemonID: pokemonID, data: fetchedData)
+        
+        return pokemonImageData
     }
     
     private func fetchData(_ url: URL) async throws -> Data {
-        guard networkStatusProvider.isConnected else {
-            throw PokedexListRepositoryError.offline
+        let key = url.absoluteString
+        
+        if let cached = await cache.value(forKey: key) {
+            return cached
+        } else {
+            guard networkStatusProvider.isConnected else {
+                throw PokedexListRepositoryError.offline
+            }
+            let data = try await networkClient.fetch(url)
+            
+            Task { [weak self] in
+                await self?.cache.setValue(data, forKey: key)
+            }
+            
+            return data
         }
-        let result = try await networkClient.fetch(url)
-        return result
     }
     
 }

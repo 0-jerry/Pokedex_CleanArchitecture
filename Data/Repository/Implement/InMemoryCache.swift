@@ -9,31 +9,14 @@ import Foundation
 
 final actor InMemoryCache: CacheProtocol {
     
-    private typealias Key = NSString
+    private var cachedData: [String: Data] = [:]
     
-    private var cache: NSCache<Key, WrappedValue> = .init()
-    
-    func setValue<Value>(_ value: Value, forKey key: URL) async {
-        let wrapped = WrappedValue(value)
-        let key = convert(key)
-        cache.setObject(wrapped, forKey: key)
+    func setValue(_ value: Data, forKey key: String) async {
+        cachedData[key] = value
     }
     
-    func value<Value>(forKey key: URL) async -> Value? {
-        let key = convert(key)
-        let wrapped = cache.object(forKey: key)
-        return wrapped?.value as? Value
+    func value(forKey key: String) async -> Data? {
+        cachedData[key]
     }
     
-    private func convert(_ url: URL) -> Key {
-        url.absoluteString as Key
-    }
-}
-
-private class WrappedValue {
-    let value: Any
-    
-    init(_ value: Any) {
-        self.value = value
-    }
 }
