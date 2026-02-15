@@ -6,7 +6,55 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		C462EF8E2F40FEA400D96872 /* PokedexData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4924C862F39D4E900150F59 /* PokedexData.framework */; };
+		C462EF8F2F40FEA400D96872 /* PokedexData.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C4924C862F39D4E900150F59 /* PokedexData.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C462EF922F40FEA400D96872 /* PokedexDomain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4924C842F39D4E900150F59 /* PokedexDomain.framework */; };
+		C462EF932F40FEA400D96872 /* PokedexDomain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C4924C842F39D4E900150F59 /* PokedexDomain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C462EF962F40FEA400D96872 /* PokedexPresentation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4924C852F39D4E900150F59 /* PokedexPresentation.framework */; };
+		C462EF972F40FEA400D96872 /* PokedexPresentation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C4924C852F39D4E900150F59 /* PokedexPresentation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C462EF9B2F40FEF200D96872 /* PokedexDomain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4924C842F39D4E900150F59 /* PokedexDomain.framework */; };
+		C462EF9C2F40FEF200D96872 /* PokedexDomain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C4924C842F39D4E900150F59 /* PokedexDomain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C462EFA02F40FEF700D96872 /* PokedexDomain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4924C842F39D4E900150F59 /* PokedexDomain.framework */; };
+		C462EFA12F40FEF700D96872 /* PokedexDomain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C4924C842F39D4E900150F59 /* PokedexDomain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
+		C462EF902F40FEA400D96872 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C4F7007A2F29F2390098A697 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C4C814FD2F31F21300C439F0;
+			remoteInfo = PokedexData;
+		};
+		C462EF942F40FEA400D96872 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C4F7007A2F29F2390098A697 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C4C814BE2F31F1D900C439F0;
+			remoteInfo = PokedexDomain;
+		};
+		C462EF982F40FEA400D96872 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C4F7007A2F29F2390098A697 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C4C814ED2F31F20900C439F0;
+			remoteInfo = PokedexPresentation;
+		};
+		C462EF9D2F40FEF200D96872 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C4F7007A2F29F2390098A697 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C4C814BE2F31F1D900C439F0;
+			remoteInfo = PokedexDomain;
+		};
+		C462EFA22F40FEF700D96872 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C4F7007A2F29F2390098A697 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C4C814BE2F31F1D900C439F0;
+			remoteInfo = PokedexDomain;
+		};
 		C4924D6E2F3A16B800150F59 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C4F7007A2F29F2390098A697 /* Project object */;
@@ -14,7 +62,7 @@
 			remoteGlobalIDString = C4C814BE2F31F1D900C439F0;
 			remoteInfo = PokedexDomain;
 		};
-		C4C814C32F31F1D900C439F0 /* PBXContainerItemProxy */ = {
+		C4E73DEA2F3F447200BCF0AC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C4F7007A2F29F2390098A697 /* Project object */;
 			proxyType = 1;
@@ -24,12 +72,37 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		C415FAF72F30CF59003A5A95 /* Embed Frameworks */ = {
+		C462EF9A2F40FEA400D96872 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				C462EF972F40FEA400D96872 /* PokedexPresentation.framework in Embed Frameworks */,
+				C462EF8F2F40FEA400D96872 /* PokedexData.framework in Embed Frameworks */,
+				C462EF932F40FEA400D96872 /* PokedexDomain.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C462EF9F2F40FEF200D96872 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C462EF9C2F40FEF200D96872 /* PokedexDomain.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C462EFA42F40FEF700D96872 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C462EFA12F40FEF700D96872 /* PokedexDomain.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -56,6 +129,13 @@
 				App/Info.plist,
 			);
 			target = C4F700812F29F2390098A697 /* Pokedex */;
+		};
+		C4E73DDE2F3F386900BCF0AC /* Exceptions for "Pokedex" folder in "PokedexPresentation" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Resource/Assets.xcassets,
+			);
+			target = C4C814ED2F31F20900C439F0 /* PokedexPresentation */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -84,6 +164,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				C4924D722F3A16DF00150F59 /* Exceptions for "Pokedex" folder in "Pokedex" target */,
+				C4E73DDE2F3F386900BCF0AC /* Exceptions for "Pokedex" folder in "PokedexPresentation" target */,
 			);
 			path = Pokedex;
 			sourceTree = "<group>";
@@ -102,6 +183,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C462EFA02F40FEF700D96872 /* PokedexDomain.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,6 +191,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C462EF9B2F40FEF200D96872 /* PokedexDomain.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -123,6 +206,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C462EF962F40FEA400D96872 /* PokedexPresentation.framework in Frameworks */,
+				C462EF8E2F40FEA400D96872 /* PokedexData.framework in Frameworks */,
+				C462EF922F40FEA400D96872 /* PokedexDomain.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,6 +227,13 @@
 			path = Document;
 			sourceTree = "<group>";
 		};
+		C4E73DE32F3F447200BCF0AC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		C4F700792F29F2390098A697 = {
 			isa = PBXGroup;
 			children = (
@@ -155,6 +248,7 @@
 				C4924C852F39D4E900150F59 /* PokedexPresentation.framework */,
 				C4924C862F39D4E900150F59 /* PokedexData.framework */,
 				C4924C872F39D4E900150F59 /* PokedexTests.xctest */,
+				C4E73DE32F3F447200BCF0AC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -216,10 +310,12 @@
 				C4C814EA2F31F20900C439F0 /* Sources */,
 				C4C814EB2F31F20900C439F0 /* Frameworks */,
 				C4C814EC2F31F20900C439F0 /* Resources */,
+				C462EFA42F40FEF700D96872 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C462EFA32F40FEF700D96872 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				C4C8169B2F31F6B800C439F0 /* Presentation */,
@@ -239,10 +335,12 @@
 				C4C814FA2F31F21300C439F0 /* Sources */,
 				C4C814FB2F31F21300C439F0 /* Frameworks */,
 				C4C814FC2F31F21300C439F0 /* Resources */,
+				C462EF9F2F40FEF200D96872 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C462EF9E2F40FEF200D96872 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				C4C8168F2F31F6AB00C439F0 /* Data */,
@@ -286,12 +384,15 @@
 				C4F7007E2F29F2390098A697 /* Sources */,
 				C4F7007F2F29F2390098A697 /* Frameworks */,
 				C4F700802F29F2390098A697 /* Resources */,
-				C415FAF72F30CF59003A5A95 /* Embed Frameworks */,
+				C462EF9A2F40FEA400D96872 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				C4C814C42F31F1D900C439F0 /* PBXTargetDependency */,
+				C4E73DEB2F3F447200BCF0AC /* PBXTargetDependency */,
+				C462EF912F40FEA400D96872 /* PBXTargetDependency */,
+				C462EF952F40FEA400D96872 /* PBXTargetDependency */,
+				C462EF992F40FEA400D96872 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				C4F700842F29F2390098A697 /* Pokedex */,
@@ -432,15 +533,40 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		C462EF912F40FEA400D96872 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C4C814FD2F31F21300C439F0 /* PokedexData */;
+			targetProxy = C462EF902F40FEA400D96872 /* PBXContainerItemProxy */;
+		};
+		C462EF952F40FEA400D96872 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C4C814BE2F31F1D900C439F0 /* PokedexDomain */;
+			targetProxy = C462EF942F40FEA400D96872 /* PBXContainerItemProxy */;
+		};
+		C462EF992F40FEA400D96872 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C4C814ED2F31F20900C439F0 /* PokedexPresentation */;
+			targetProxy = C462EF982F40FEA400D96872 /* PBXContainerItemProxy */;
+		};
+		C462EF9E2F40FEF200D96872 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C4C814BE2F31F1D900C439F0 /* PokedexDomain */;
+			targetProxy = C462EF9D2F40FEF200D96872 /* PBXContainerItemProxy */;
+		};
+		C462EFA32F40FEF700D96872 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C4C814BE2F31F1D900C439F0 /* PokedexDomain */;
+			targetProxy = C462EFA22F40FEF700D96872 /* PBXContainerItemProxy */;
+		};
 		C4924D6F2F3A16B800150F59 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C4C814BE2F31F1D900C439F0 /* PokedexDomain */;
 			targetProxy = C4924D6E2F3A16B800150F59 /* PBXContainerItemProxy */;
 		};
-		C4C814C42F31F1D900C439F0 /* PBXTargetDependency */ = {
+		C4E73DEB2F3F447200BCF0AC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C4C814BE2F31F1D900C439F0 /* PokedexDomain */;
-			targetProxy = C4C814C32F31F1D900C439F0 /* PBXContainerItemProxy */;
+			targetProxy = C4E73DEA2F3F447200BCF0AC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

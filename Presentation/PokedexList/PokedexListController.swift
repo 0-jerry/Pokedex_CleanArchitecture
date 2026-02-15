@@ -10,8 +10,8 @@ import PokedexDomain
 public protocol PokedexInputPort {
     func loadNextPokemonIDList(offset: Int)
     func completedLoadNextPokemonIDList()
-    func loadPokemonImage(pokemonID: PokemonID)
-    func selectedPokemon(pokemonID: PokemonID)
+    func loadPokemonImage(_ pokemonID: PokemonID)
+    func selectedPokemon(_ pokemonID: PokemonID)
     func onAppear()
 }
 
@@ -27,7 +27,10 @@ public final class PokedexListController: PokedexInputPort {
     }
     
     public func loadNextPokemonIDList(offset: Int) {
+        
         guard !nextPokemonIDListIsloading else { return }
+        nextPokemonIDListIsloading = true
+
         useCase.request(.fetchPokemonIDList(offset: offset))
     }
     
@@ -35,11 +38,11 @@ public final class PokedexListController: PokedexInputPort {
         nextPokemonIDListIsloading = false
     }
     
-    public func loadPokemonImage(pokemonID: PokemonID) {
+    public func loadPokemonImage(_ pokemonID: PokemonID) {
         useCase.request(.fetchPokemonImage(pokemonID))
     }
     
-    public func selectedPokemon(pokemonID: PokemonID) {
+    public func selectedPokemon(_ pokemonID: PokemonID) {
         guard !onNextView else { return }
         useCase.request(.selectedPokemon(pokemonID))
         onNextView = true

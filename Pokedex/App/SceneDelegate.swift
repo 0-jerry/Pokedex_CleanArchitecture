@@ -19,7 +19,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = scene as? UIWindowScene else { return }
         let window = UIWindow(windowScene: scene)
         self.window = window
-        window.rootViewController = UINavigationController(rootViewController: ViewController())
+        let navigationController = UINavigationController()
+        let view = PokedexListFactory.pokedexList(navigationController)
+        navigationController.pushViewController(view, animated: false)
+        window.rootViewController = navigationController
         window.makeKeyAndVisible()
     }
 
