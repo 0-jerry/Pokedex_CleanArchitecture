@@ -11,7 +11,6 @@ public protocol PokedexListUseCaseProtocol: AnyObject {
 
 public enum PokedexListUseCaseError: Error {
     case offline
-    case pokemonIDListIsOnloading
     case pokemonImageLoadFaild(PokemonID)
     case unknown
 }
@@ -50,7 +49,7 @@ public final class PokedexListUseCase: PokedexListUseCaseProtocol {
             handleFetchPokemonImage(pokemonID)
             
         case .selectedPokemon(let pokemonID):
-            outputPort.present(.pushPokemonInfo(pokemonID: pokemonID))
+            outputPort.present(.pushPokemonInfo(pokemonID))
         }
     }
     
@@ -75,7 +74,7 @@ public final class PokedexListUseCase: PokedexListUseCaseProtocol {
             do {
                 guard let repository = self?.repository else { return }
                 let pokemonImageData = try await repository.fetchPokemonImage(pokemonID)
-                self?.outputPort.present(.setPokemonImage(imageData: pokemonImageData))
+                self?.outputPort.present(.setPokemonImageData(pokemonImageData))
             } catch {
                 self?.outputPort.present(.handleError(.pokemonImageLoadFaild(pokemonID)))
             }
