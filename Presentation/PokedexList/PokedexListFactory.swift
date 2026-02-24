@@ -8,11 +8,10 @@
 import UIKit
 import PokedexDomain
 import PokedexData
-import PokedexPresentation
 
-enum PokedexListFactory {
+public enum PokedexListFactory {
     
-    static func pokedexList(_ navigationController: UINavigationController) -> PokedexListView {
+    public static func pokedexList(_ navigationController: UINavigationController) -> PokedexListView {
         let view = PokedexListView()
         let router = PokedexListRouter(navigationController: navigationController)
         let presenter = PokedexListPresenter(router: router,

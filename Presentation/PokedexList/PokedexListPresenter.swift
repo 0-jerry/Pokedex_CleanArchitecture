@@ -8,6 +8,7 @@
 import Foundation
 import PokedexDomain
 
+@MainActor
 public protocol PokedexListRenderer: AnyObject {
     func render(_ viewModel: PokedexListViewModel)
 }
@@ -18,7 +19,6 @@ public enum PokedexListViewModel {
     case imageLoadFail(PokemonID)
     case showError(title: String, description: String)
 }
-
 
 public protocol PokedexListRouterProcotol: AnyObject {
     func assign(_ destination: PokedexListDestination)
@@ -46,10 +46,10 @@ public final class PokedexListPresenter: PokedexListOutputPort {
         var destination: PokedexListDestination? = nil
         
         switch response {
-        case .appendPokemonIDList(let pokemonIDList):
+        case .newPokemonIDList(let pokemonIDList):
             viewModel = .appendPokemonList(pokemonIDList)
             
-        case .setPokemonImageData(imageData: let imageData):
+        case .pokemonImageData(imageData: let imageData):
             if let pokemonImage = PokemonImage(pokemonImageData: imageData) {
                 viewModel = .setupPokemonImage(pokemonImage)
             } else {
@@ -59,7 +59,7 @@ public final class PokedexListPresenter: PokedexListOutputPort {
         case .pushPokemonInfo(pokemonID: let pokemonID):
             destination = .pushPokemonInfo(pokemonID)
             
-        case .handleError(let error):
+        case .error(let error):
             switch error {
             case .offline:
                 viewModel = .showError(title: "오프라인 상태",
@@ -79,8 +79,9 @@ public final class PokedexListPresenter: PokedexListOutputPort {
         @unknown default:
             fatalError("[\(self).\(#function)] @unknown default")
         }
-        
-        if let viewModel { renderer?.render(viewModel) }
+        Task { [weak self] in
+            if let viewModel { await self?.renderer?.render(viewModel) }
+        }
         if let destination { router.assign(destination) }
     }
     

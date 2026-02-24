@@ -107,7 +107,7 @@ public final class PokemonRepository: PokedexListRepositoryProtocol, PokemonInfo
             return cached
         } else {
             guard networkStatusProvider.isConnected else {
-                throw PokedexListRepositoryError.offline
+                throw PokedexRepositoryError.offline
             }
             let data = try await networkClient.fetch(url)
             

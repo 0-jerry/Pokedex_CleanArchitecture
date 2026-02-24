@@ -17,7 +17,13 @@ public final class PokedexListRouter: PokedexListRouterProcotol {
     }
     
     public func assign(_ destination: PokedexListDestination) {
-        <#code#>
+        
+        switch destination {
+        case .pushPokemonInfo(let pokemonID):
+            Task { @MainActor [weak self] in
+                self?.navigationController?.pushViewController(.init(), animated: true)
+            }
+        }
     }
     
 }

@@ -18,8 +18,8 @@ public struct PokemonImageData {
 }
 
 public enum PokedexListResponse {
-    case appendPokemonIDList([PokemonID])
-    case setPokemonImageData(PokemonImageData)
+    case newPokemonIDList([PokemonID])
+    case pokemonImageData(PokemonImageData)
     case pushPokemonInfo(PokemonID)
-    case handleError(PokedexListUseCaseError)
+    case error(PokedexListUseCaseError)
 }

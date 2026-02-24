@@ -55,7 +55,7 @@ public final class PokedexListView: UIViewController {
     private lazy var placeholder: UIView = {
         let container = UIView()
         container.translatesAutoresizingMaskIntoConstraints = false
-
+        
         let stack = UIStackView(arrangedSubviews: [placeholderTitleLabel,
                                                    placeholderDescriptionLabel,
                                                    retryButton])
@@ -63,16 +63,16 @@ public final class PokedexListView: UIViewController {
         stack.spacing = 12
         stack.alignment = .center
         stack.translatesAutoresizingMaskIntoConstraints = false
-
+        
         container.addSubview(stack)
-
+        
         NSLayoutConstraint.activate([
             stack.centerXAnchor.constraint(equalTo: container.centerXAnchor),
             stack.centerYAnchor.constraint(equalTo: container.centerYAnchor),
             stack.leadingAnchor.constraint(greaterThanOrEqualTo: container.leadingAnchor, constant: 20),
             stack.trailingAnchor.constraint(lessThanOrEqualTo: container.trailingAnchor, constant: -20)
         ])
-
+        
         container.isHidden = true
         return container
     }()
@@ -123,38 +123,27 @@ public final class PokedexListView: UIViewController {
 extension PokedexListView: PokedexListRenderer {
     
     public func render(_ viewModel: PokedexListViewModel) {
-        Task { @MainActor [weak self] in
-            guard let self else { return }
-            switch viewModel {
-            case .appendPokemonList(let newPokemonIDList):
-                self.updateSnapshot(with: newPokemonIDList)
-                self.input.completedLoadNextPokemonIDList()
-                
-            case .setupPokemonImage(let pokemonImage):
-                self.pokemonImageCell(for: pokemonImage.pokemonID)?
-                    .setPokemonImage(pokemonImage)
-                
-            case .showError(title: let title, description: let description):
-                if self.offset == 0 {
-                    self.showPlaceholder(title: title, description: description)
-                } else {
-                    self.showAlert(title: title, message: description)
-                }
-                self.input.completedLoadNextPokemonIDList()
-                
-            case .imageLoadFail(let pokemonID):
-                self.pokemonImageCell(for: pokemonID)?
-                    .setImageLoadFail()
+        switch viewModel {
+        case .appendPokemonList(let newPokemonIDList):
+            updateSnapshot(with: newPokemonIDList)
+            input.completedLoadNextPokemonIDList()
+            
+        case .setupPokemonImage(let pokemonImage):
+            pokemonImageCell(for: pokemonImage.pokemonID)?.setPokemonImage(pokemonImage)
+            
+        case .imageLoadFail(let pokemonID):
+            pokemonImageCell(for: pokemonID)?.setImageLoadFail()
+            
+        case .showError(title: let title, description: let description):
+            if offset == 0 {
+                showPlaceholder(title: title, description: description)
+            } else {
+                showAlert(title: title, message: description)
             }
+            input.completedLoadNextPokemonIDList()
         }
     }
     
-    private func showAlert(title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "재시도", style: .default,
-                                      handler: { [weak self] _ in self?.didTapRetry() }))
-        present(alert, animated: true, completion: nil)
-    }
 }
 
 extension PokedexListView: UICollectionViewDelegate {
@@ -248,7 +237,7 @@ private extension PokedexListView {
     
     func updateSnapshot(with newIDs: [PokemonID]) {
         var snapshot = dataSource.snapshot()
-
+        
         hidePlaceholder()
         snapshot.appendItems(newIDs, toSection: .main)
         dataSource.apply(snapshot, animatingDifferences: true)
@@ -278,23 +267,31 @@ private extension PokedexListView {
 }
 
 private extension PokedexListView {
-    func showPlaceholder(title: String, description: String) {
-        placeholderTitleLabel.text = title
-        placeholderDescriptionLabel.text = description
-
-        placeholder.isHidden = false
-        pokemonListView.isHidden = true
-    }
-
+    
     func hidePlaceholder() {
         placeholder.isHidden = true
         pokemonListView.isHidden = false
     }
+    
+    func showPlaceholder(title: String, description: String) {
+        placeholderTitleLabel.text = title
+        placeholderDescriptionLabel.text = description
+        
+        placeholder.isHidden = false
+        pokemonListView.isHidden = true
+    }
+    
+    func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "재시도", style: .default,
+                                      handler: { [weak self] _ in self?.didTapRetry() }))
+        present(alert, animated: true, completion: nil)
+    }
+    
 }
 
 private extension PokedexListView {
     @objc func didTapRetry() {
-        // Retry loading from the beginning when there is no data
         input.loadNextPokemonIDList(offset: offset)
     }
 }

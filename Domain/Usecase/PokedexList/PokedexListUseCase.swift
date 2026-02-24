@@ -24,7 +24,7 @@ public protocol PokedexListRepositoryProtocol {
     func fetchPokemonImage(_ pokemonID: PokemonID) async throws -> PokemonImageData
 }
 
-public enum PokedexListRepositoryError: Error {
+public enum PokedexRepositoryError: Error {
     case offline
 }
 
@@ -57,14 +57,14 @@ public final class PokedexListUseCase: PokedexListUseCaseProtocol {
         Task { [weak self] in
             do {
                 guard let pokemonIDList = try await self?.repository.fetchPokemonIDList(offset: offset) else {
-                    self?.outputPort.present(.handleError(.unknown))
+                    self?.outputPort.present(.error(.unknown))
                     return
                 }
-                self?.outputPort.present(.appendPokemonIDList(pokemonIDList))
-            } catch PokedexListRepositoryError.offline {
-                self?.outputPort.present(.handleError(.offline))
+                self?.outputPort.present(.newPokemonIDList(pokemonIDList))
+            } catch PokedexRepositoryError.offline {
+                self?.outputPort.present(.error(.offline))
             } catch {
-                self?.outputPort.present(.handleError(.unknown))
+                self?.outputPort.present(.error(.unknown))
             }
         }
     }
@@ -74,9 +74,9 @@ public final class PokedexListUseCase: PokedexListUseCaseProtocol {
             do {
                 guard let repository = self?.repository else { return }
                 let pokemonImageData = try await repository.fetchPokemonImage(pokemonID)
-                self?.outputPort.present(.setPokemonImageData(pokemonImageData))
+                self?.outputPort.present(.pokemonImageData(pokemonImageData))
             } catch {
-                self?.outputPort.present(.handleError(.pokemonImageLoadFaild(pokemonID)))
+                self?.outputPort.present(.error(.pokemonImageLoadFaild(pokemonID)))
             }
         }
     }
