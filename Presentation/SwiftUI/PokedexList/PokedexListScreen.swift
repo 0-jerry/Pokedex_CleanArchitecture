@@ -38,7 +38,9 @@ struct PokedexListScreen: View {
                         ScrollView {
                             LazyVGrid(columns: columns, spacing: 10) {
                                 ForEach(state.pokemonIDs, id: \.self) { pokemonID in
-                                    NavigationLink(value: pokemonID) {
+                                    Button(action: {
+                                        input.selectedPokemon(pokemonID)
+                                    }) {
                                         PokemonCellView(
                                             pokemonID: pokemonID,
                                             image: state.pokemonImages[pokemonID],
@@ -46,55 +48,49 @@ struct PokedexListScreen: View {
                                             input: input
                                         )
                                     }
-                                    .simultaneousGesture(TapGesture().onEnded {
-                                        input.selectedPokemon(pokemonID)
-                                    })
-                                }
-                            }
-                            .padding(5)
-                            
-                            if !state.pokemonIDs.isEmpty {
-                                ProgressView()
-                                    .padding()
-                                    .onAppear {
-                                        loadNextPage()
+                                                                         .buttonStyle(.plain)
+                                                                         .onAppear {
+                                                                             if pokemonID == state.pokemonIDs.last {
+                                                                                 input.loadNextPokemonIDList(offset: state.pokemonIDs.count)
+                                                                             }
+                                                                         }
+                                                                     }
+                                                                 }
+                                                                 .padding(5)
+                                                                
+                                                                if state.pokemonIDs.isEmpty == false {
+                                                                    ProgressView()
+                                                                        .padding()
+                                                                }
+                                                            }
+                                                            .padding(.top, 20)
+                                                            .padding(.bottom, 30)
+                                                        }
+                                                    }
+                                                }
+                                                .navigationTitle("Pokedex")
+                                                .navigationBarHidden(true)
+                                                .navigationDestination(for: PokemonID.self) { pokemonID in
+                                                    PokemonInfoFactory_SwiftUI.create(pokemonID: pokemonID)
+                                                        .onAppear {
+                                                            input.onAppear()
+                                                        }
+                                                }
+                                                .alert(item: $state.error) { viewError in
+                                                     Alert(
+                                                         title: Text(viewError.title),
+                                                         message: Text(viewError.description),
+                                                         dismissButton: .default(Text("재시도"), action: {
+                                                            state.error = nil
+                                                            input.loadNextPokemonIDList(offset: state.pokemonIDs.count)
+                                                         })
+                                                     )
+                                                }
+                                            }
+                                            .onAppear {
+                                                if state.pokemonIDs.isEmpty {
+                                                    input.loadNextPokemonIDList(offset: state.pokemonIDs.count)
+                                                }
+                                            }
+                                        }
                                     }
-                            }
-                        }
-                        .padding(.top, 20)
-                        .padding(.bottom, 30)
-                    }
-                }
-            }
-            .navigationTitle("Pokedex")
-            .navigationBarHidden(true)
-            .navigationDestination(for: PokemonID.self) { pokemonID in
-                PokemonInfoFactory_SwiftUI.create(pokemonID: pokemonID)
-                    .onAppear {
-                        input.onAppear()
-                    }
-            }
-            .alert(item: $state.error) { viewError in
-                 Alert(
-                     title: Text(viewError.title),
-                     message: Text(viewError.description),
-                     dismissButton: .default(Text("재시도"), action: {
-                        state.error = nil
-                        loadNextPage()
-                     })
-                 )
-            }
-        }
-        .onAppear {
-            if state.pokemonIDs.isEmpty {
-                loadNextPage()
-            }
-        }
-    }
-    
-    private func loadNextPage() {
-        guard state.canLoadNextPage else { return }
-        state.canLoadNextPage = false
-        input.loadNextPokemonIDList(offset: state.pokemonIDs.count)
-    }
-}

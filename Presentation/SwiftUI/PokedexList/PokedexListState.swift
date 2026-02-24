@@ -8,7 +8,6 @@ final class PokedexListState: ObservableObject, PokedexListRenderer {
     @Published var pokemonImages: [PokemonID: PokemonImage] = [:]
     @Published var imageLoadFailIDs = Set<PokemonID>()
     @Published var error: ViewError?
-    @Published var canLoadNextPage = true
 
     var input: PokedexInputPort?
 
@@ -19,10 +18,6 @@ final class PokedexListState: ObservableObject, PokedexListRenderer {
             let trulyNewIDs = newPokemonIDList.filter { !existingIDs.contains($0) }
             if !trulyNewIDs.isEmpty {
                 pokemonIDs.append(contentsOf: trulyNewIDs)
-            }
-            // Allow loading the next page unless an error occurred
-            if error == nil {
-                canLoadNextPage = true
             }
             input?.completedLoadNextPokemonIDList()
             
@@ -35,7 +30,6 @@ final class PokedexListState: ObservableObject, PokedexListRenderer {
             
         case .showError(let title, let description):
             self.error = ViewError(title: title, description: description)
-            canLoadNextPage = true // Allow retry
             input?.completedLoadNextPokemonIDList()
         }
     }
