@@ -20,8 +20,10 @@ public final class PokedexListRouter: PokedexListRouterProcotol {
         
         switch destination {
         case .pushPokemonInfo(let pokemonID):
-            Task { @MainActor [weak self] in
-                self?.navigationController?.pushViewController(.init(), animated: true)
+            Task { @MainActor [weak navigationController] in
+                guard let navigationController else { return }
+                let nextView = PokemonInfoFactory.pokemonInfo(navigationController, pokemonID: pokemonID)
+                navigationController.pushViewController(nextView, animated: true)
             }
         }
     }

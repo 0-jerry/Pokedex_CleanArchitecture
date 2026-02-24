@@ -16,7 +16,7 @@ public final class PokemonInfoRouter: PokemonInfoRouterProcotol {
     }
     
     public func assign(_ destination: PokemonInfoDestination) {
-        <#code#>
+        
     }
 
 }
