@@ -5,7 +5,7 @@
 //  Created by jerry on 2/13/26.
 //
 
-struct HEX {
+public struct HEX {
     let red: Double
     let green: Double
     let blue: Double
