@@ -7,6 +7,7 @@
 
 import UIKit
 import PokedexPresentation
+import SwiftUI
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -20,10 +21,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = scene as? UIWindowScene else { return }
         let window = UIWindow(windowScene: scene)
         self.window = window
-        let navigationController = UINavigationController()
-        let view = PokedexListFactory.pokedexList(navigationController)
-        navigationController.pushViewController(view, animated: false)
-        window.rootViewController = navigationController
+        
+        let swiftUIView = PokedexListFactory_SwiftUI.create()
+        window.rootViewController = UIHostingController(rootView: swiftUIView)
         window.makeKeyAndVisible()
     }
 
