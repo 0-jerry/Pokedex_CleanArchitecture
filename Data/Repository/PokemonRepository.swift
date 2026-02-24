@@ -110,10 +110,7 @@ public final class PokemonRepository: PokedexListRepositoryProtocol, PokemonInfo
                 throw PokedexRepositoryError.offline
             }
             let data = try await networkClient.fetch(url)
-            
-            Task { [weak self] in
-                await self?.cache.setValue(data, forKey: key)
-            }
+            await self.cache.setValue(data, forKey: key)
             
             return data
         }
