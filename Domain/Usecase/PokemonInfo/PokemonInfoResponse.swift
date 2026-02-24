@@ -6,5 +6,7 @@
 //
 
 public enum PokemonInfoResponse {
-    
+    case pokemonInfo(pokemon: Pokemon, pokemonImageData: PokemonImageData)
+    case dismiss
+    case error(PokemonInfoUseCaseError)
 }

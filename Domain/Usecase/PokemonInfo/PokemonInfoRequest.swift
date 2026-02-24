@@ -6,5 +6,6 @@
 //
 
 public enum PokemonInfoRequest {
-    
+    case loadPokemonInfo
+    case dismiss
 }
